@@ -20,7 +20,7 @@ pd=transMatch(pd(:,1:2));
 
 if 1
     % find speed, on_time, and vehicle length 
-    v= 20./(pd(1:2:end,2,:)-pu(1:2:end,2,:)); % find the speed of each matched vehicle from the rising edge transitions at the paired detectors in mph, note that the dual loop detectors are SUPPOSED to be 20 ft apart
+    v= (9000/11)./(pd(1:2:end,2,:)-pu(1:2:end,2,:)); % find the speed of each matched vehicle from the rising edge transitions at the paired detectors in mph, note that the dual loop detectors are SUPPOSED to be 20 ft apart
     on= pu(2:2:end,2,:)-pu(1:2:end,2,:); % find the amount of time that the upstream detector is on for each pulse, in 1/60 sec
     L= v.*on; % find the vehicle length for each vehicle passage in ft
     t= pd(2:2:end,2,:)-pu(1:2:end,2,:); % find the time the vehicle passed the dual detector, in 1/60 sec after midnight

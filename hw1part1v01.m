@@ -16,25 +16,25 @@
 %
 % However, do NOT upload your data files, I do not want to see them
 
-clear
+%clear
 
-pathS='/Users/coifman.1/ my stuff/cars n bn/big day 090909 data/'; % you will need to change this path to wherever you put the data on your computer
-pathLS=[pathS,'loop data/090909/'];
+%pathS='/Users/coifman.1/ my stuff/cars n bn/big day 090909 data/'; % you will need to change this path to wherever you put the data on your computer
+%pathLS=[pathS,'loop data/090909/'];
 
-if exist([pathLS,'st1.mat'])
-    load([pathLS,'st1'])  % load the data from station 1 assuming it is in the folder where I put it on my computer
-elseif exist('st1.mat')
-    load st1 % otherwise, try loading it from the current working directory
-else
-    note='I cannot seem to find st1.mat, please move it to the same directory that has this .m file and try again'
-    break
-end
+%if exist([pathLS,'st1.mat'])
+%    load([pathLS,'st1'])  % load the data from station 1 assuming it is in the folder where I put it on my computer
+%elseif exist('st1.mat')
+%    load st1 % otherwise, try loading it from the current working directory
+%else
+%    note='I cannot seem to find st1.mat, please move it to the same directory that has this .m file and try again'
+%    break
+%end
 
 
 p2u1=transMatch(p2uE(:,1:2));  % using pNuM with N to denote lane and M to denote station
 p2d1=transMatch(p2dE(:,1:2));
 
-[p2u1,p2d1]=pulseMatch(p2u1,p2d1);
+%[p2u1,p2d1]=pulseMatch(p2u1,p2d1);
 
 
 figure(10)
@@ -55,7 +55,19 @@ figure(15)
 %
 % As always, use title, xlabel, ylabel, and legend to clearly explain what
 % this plot is showing 
-
+subplot(2,2,1)
+stairs(p2u1(:,2)/60^3,p2u1(:,1),'g')
+axis([12.326,12.335,-0.3,2.5])
+subplot(2,2,3)
+stairs(p2d1(:,2)/60^3,p2d1(:,1)+1.2,'r')
+axis([12.326,12.335,-0.3,2.5])
+[p2u1,p2d1]=pulseMatch(p2u1,p2d1);
+subplot(2,2,2)
+stairs(p2u1(:,2)/60^3,p2u1(:,1),'g')
+axis([12.326,12.335,-0.3,2.5])
+subplot(2,2,4)
+stairs(p2d1(:,2)/60^3,p2d1(:,1)+1.2,'r')
+axis([12.326,12.335,-0.3,2.5])
 
 
 if 1
@@ -63,10 +75,10 @@ if 1
     % length at station 1 lane 2. Note the variable names continue the N 
     % and M convention from above.
     %
-    v21= SOMETHING; % find the speed of each matched vehicle from the rising edge transitions at the paired detectors in mph, note that the dual loop detectors are SUPPOSED to be 20 ft apart
-    on21= SOMETHING; % find the amount of time that the upstream detector is on for each pulse, in 1/60 sec
-    L21= SOMETHING; % find the vehicle length for each vehicle passage in ft
-    t21= SOMETHING; % find the time the vehicle passed the dual detector, in 1/60 sec after midnight
+    v21= (9000/11)./(p2d1(1:2:end,2,:)-p2u1(1:2:end,2,:));; % find the speed of each matched vehicle from the rising edge transitions at the paired detectors in mph, note that the dual loop detectors are SUPPOSED to be 20 ft apart
+    on21= p2u1(2:2:end,2,:)-p2u1(1:2:end,2,:); % find the amount of time that the upstream detector is on for each pulse, in 1/60 sec
+    L21= (v21*5280/3600/60).*on21; % find the vehicle length for each vehicle passage in ft
+    t21= p2d1(2:2:end,2,:)-p2u1(1:2:end,2,:); % find the time the vehicle passed the dual detector, in 1/60 sec after midnight
 elseif 1
     % Coifman's solution will appear here in the solution, after your submission is due
     
