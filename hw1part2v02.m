@@ -19,8 +19,8 @@ end
 if 0
     % set the target free flow speed to be 60 mph at station 13 and 16, 
     % modify your code from part 1 accordingly, then recalculate L
-    vU= SOMETHING;
-    LU= SOMETHING;
+    vU= vU/median(vU)*60;
+    LU= (vU*5280/3600/60).*onU;
 else
     % Coifman's solution will appear here in the solution, after your submission is due
 
@@ -42,8 +42,8 @@ end
 if 1
     % set the target free flow speed to be 60 mph at station 13 and 16, 
     % modify your code from part 1 accordingly, then recalculate L
-    vD= SOMETHING;
-    LD= SOMETHING; 
+    vD= vD/median(vD)*60;
+    LD= (vD*5280/3600/60).*onD; 
 else
     % Coifman's solution will appear here in the solution, after your submission is due
 
