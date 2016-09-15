@@ -52,27 +52,27 @@ for ii=1:size(tr)
     q(rindex(ii))=q(rindex(ii))+1;  % note that this is not quite q, still have to multipy by 3600/T
     
     if 1
-        % now add the code to also find occ, vt, and vs
-        if rindex(ii)==findex(ii)
+        if(rindex(ii)==findex(ii))
             occ(rindex(ii)) = occ(rindex(ii)) + on(ii);
-            
-        elseif findex(ii) - rindex(ii) == 1
-            occ(rindex(ii)) = occ(rindex(ii)) + abs(T*rindex(ii)-tr(ii));
-            occ(rindex(ii)+1) = occ(rindex(ii)+1) + abs(tf(ii) - T*rindex(ii));
-        elseif findex(ii) - rindex(ii) > 1
-            occ(rindex(ii)+1) = T; 
+        elseif(findex(ii)-rindex(ii)==1)
+            occ(rindex(ii)) = occ(rindex(ii)) + (rindex(ii)*T - tr(ii));
+            occ(findex(ii)) = occ(findex(ii)) + (tf(ii) - rindex(ii)*T);
+        else
+            occ(rindex(ii)) = occ(rindex(ii)) + (rindex(ii)*T - tr(ii));
+            occ(findex(ii)) = occ(findex(ii)) + (tf(ii) - rindex(ii)*T);
+            for i = 1 : findex(ii)-rindex(ii)
+                occ(rindex(ii)+i) = T;
+            end
         end
-        
-        
-        
-        
-        vt(rindex(ii)) = vt(rindex(ii)) + v(ii);    %only count the rising edge
-        vs(rindex(ii)) = vs(rindex(ii)) + 1/v(ii);
+            
+               
+        % now add the code to also find occ, vt, and vs
         
         % be sure to anticipate the possibility that an on-time might be
         % split over 3+ samples when calculating occ
         
-        
+        vt(rindex(ii)) = vt(rindex(ii)) + v(ii);
+        vs(rindex(ii)) = vs(rindex(ii)) + 1/v(ii);
     else
         % Coifman's solution will appear here in the solution, after your submission is due
         
@@ -84,8 +84,7 @@ if 1
     % now add the code to clean up occ, vt, and vs
     occ = occ/T;
     vt = vt./q;
-    vs = 1./vs;
-
+    vs = 1./(vs./q);
 else
     % Coifman's solution will appear here in the solution, after your submission is due
     
